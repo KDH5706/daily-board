@@ -1,0 +1,934 @@
+:root {
+      --background: #f7f7f7;
+      --text: #555;
+      --clock: #c3c3c3;
+      --muted: #d2d2d2;
+      --sunday: #b62929;
+      --saturday: #2f69a6;
+      --today-background: #e5e5e5;
+      --today-text: #555;
+      --calendar-title: #111;
+      --outside-sunday: #e7bdbd;
+      --outside-saturday: #b9cde3;
+
+      /* 유가 정보 탭 - 라이트 모드 */
+      --fuel-text: #262b31;
+      --fuel-muted: #707780;
+      --fuel-border: rgba(38, 43, 49, 0.14);
+      --fuel-card-bg: #ffffff;
+      --fuel-card-shadow: 0 10px 28px rgba(27, 35, 44, 0.08);
+      --fuel-price-bg: #eef1f4;
+      --fuel-button-bg: #ffffff;
+      --fuel-button-text: #3e464f;
+      --fuel-button-border: rgba(38, 43, 49, 0.24);
+      --fuel-tab-bg: #e9edf1;
+      --fuel-tab-text: #59616b;
+      --fuel-tab-selected-bg: #bd2028;
+      --fuel-tab-selected-text: #ffffff;
+      --fuel-accent: #bd2028;
+      --fuel-cheapest-bg: #f6f2e7;
+      --fuel-cheapest-border: #ccb06b;
+      --fuel-cheapest-text: #76602b;
+      --fuel-cheapest-glow: rgba(204,176,107,.10);
+    }
+
+    :root.dark {
+      --background: #101316;
+      --text: #d9dde2;
+      --clock: #7f8994;
+      --muted: #444b53;
+      --sunday: #e06b6b;
+      --saturday: #72a7df;
+      --today-background: #303740;
+      --today-text: #ffffff;
+      --calendar-title: #f3f5f7;
+      --outside-sunday: #7d5a5a;
+      --outside-saturday: #596b83;
+
+      /* 유가 정보 탭 - 다크 모드 */
+      --fuel-text: #f5f7f9;
+      --fuel-muted: rgba(245, 247, 249, 0.72);
+      --fuel-border: rgba(255, 255, 255, 0.16);
+      --fuel-card-bg: rgba(255, 255, 255, 0.08);
+      --fuel-card-shadow: none;
+      --fuel-price-bg: rgba(255, 255, 255, 0.10);
+      --fuel-button-bg: rgba(255, 255, 255, 0.10);
+      --fuel-button-text: #ffffff;
+      --fuel-button-border: rgba(255, 255, 255, 0.34);
+      --fuel-tab-bg: rgba(255, 255, 255, 0.10);
+      --fuel-tab-text: rgba(255, 255, 255, 0.76);
+      --fuel-tab-selected-bg: #ffffff;
+      --fuel-tab-selected-text: #bd2028;
+      --fuel-accent: #ff6b73;
+      --fuel-cheapest-bg: rgba(204,176,107,.08);
+      --fuel-cheapest-border: #ccb06b;
+      --fuel-cheapest-text: #dfd0a5;
+      --fuel-cheapest-glow: rgba(204,176,107,.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: var(--background);
+      transition: background-color 0.8s ease;
+    }
+
+    body {
+      position: relative;
+      font-family:
+        "SamsungOne",
+        "Noto Sans KR",
+        "Apple SD Gothic Neo",
+        "Malgun Gothic",
+        Arial,
+        sans-serif;
+    }
+
+    /*
+      기준 디자인 크기: 1920 × 1280
+      JavaScript가 실제 브라우저 크기에 맞춰 보드 전체를 비율 축소합니다.
+    */
+    .daily-board {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 1920px;
+      height: 1280px;
+      padding: 30px 80px 30px;
+
+      display: grid;
+
+      grid-template-columns: 720px minmax(0, 1fr);
+      grid-template-rows: 150px minmax(0, 1fr);
+
+      column-gap: 50px;
+
+      align-items: stretch;
+      overflow: hidden;
+
+      background: var(--background);
+      color: var(--text);
+      transform-origin: top left;
+    }
+
+    .left-panel,
+    .calendar-panel {
+      min-width: 0;
+    }
+
+    .left-panel {
+      grid-column: 1;
+      grid-row: 2;
+
+      align-self: center;
+    }
+
+    .date {
+      display: flex;
+      align-items: baseline;
+      margin-bottom: 60px;
+      font-size: 78px;
+      line-height: 1.18;
+      font-weight: 300;
+      letter-spacing: -0.04em;
+
+      gap: 24px;
+    }
+
+    .weekday {
+      display: inline;
+    }
+
+    .time {
+      display: flex;
+      align-items: flex-end;
+      white-space: nowrap;
+
+      color: var(--clock);
+      font-size: 290px;
+      line-height: 0.84;
+      font-weight: 200;
+      letter-spacing: -0.08em;
+
+      text-shadow:
+        0 0 1px rgba(0, 0, 0, 0.08),
+        0 0 10px rgba(0, 0, 0, 0.03);
+    }
+
+    .hour-minute {
+      display: inline-block;
+    }
+
+    .seconds {
+      display: inline-flex;
+      gap: 8px;
+
+      margin-left: 20px;
+      margin-bottom: -15px;
+
+      color: var(--clock);
+      font-size: 120px;
+      line-height: 1;
+      font-weight: 300;
+      letter-spacing: -0.08em;
+
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum";
+    }
+
+    .seconds span {
+      display: inline-block;
+      min-width: 0.62em;
+      text-align: center;
+    }
+
+    .calendar-panel {
+      width: 100%;
+      max-width: 900px;
+      justify-self: center;
+    }
+
+    .calendar-title {
+      height: 48px;
+      margin-bottom: 32px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: var(--calendar-title);
+      font-size: 38px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .calendar {
+      width: 100%;
+      height: 75%;
+      min-height: 0;
+      align-self: start;
+
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+
+      /* 요일 1행 + 날짜 6행 */
+      grid-template-rows:
+        auto
+        repeat(6, minmax(0, 1fr));
+
+      column-gap: 18px;
+      row-gap: 10px;
+
+      align-items: stretch;
+      text-align: center;
+      user-select: none;
+    }
+
+    .weekday-label {
+      min-width: 0;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 22px;
+      font-weight: 500;
+    }
+
+    .day {
+      position: relative;
+      min-width: 0;
+      min-height: 0;
+      height: 100%;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 36px;
+      font-weight: 400;
+      font-variant-numeric: tabular-nums;
+      z-index: 0;
+    }
+
+    .sun {
+      color: var(--sunday);
+    }
+
+    .sat {
+      color: var(--saturday);
+    }
+
+    .outside {
+      color: var(--muted);
+    }
+
+    .outside.sun {
+      color: var(--outside-sunday);
+    }
+
+    .outside.sat {
+      color: var(--outside-saturday);
+    }
+
+    .today {
+      color: var(--today-text);
+      font-weight: 600;
+    }
+
+    .today::before {
+      content: "";
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--today-background);
+      z-index: -1;
+    }
+
+
+    .theme-switcher {
+      position: absolute;
+      top: 34px;
+      right: 42px;
+      z-index: 10;
+
+      display: inline-grid;
+      grid-template-columns: repeat(4, auto);
+      gap: 6px;
+      padding: 6px;
+
+      border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--background) 86%, transparent);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+
+      transition: background-color 0.35s ease, border-color 0.35s ease;
+    }
+
+    .top-left-controls {
+      position: absolute;
+      top: 42px;
+      left: 42px;
+      z-index: 10;
+
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .setting-control {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+
+      padding: 12px 18px;
+
+      border: 1px solid
+        color-mix(in srgb, var(--text) 18%, transparent);
+      border-radius: 999px;
+
+      background:
+        color-mix(in srgb, var(--background) 86%, transparent);
+
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .autostart-label {
+      color: var(--text);
+      font-size: 20px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .toggle-switch {
+      position: relative;
+
+      width: 68px;
+      height: 38px;
+      padding: 0;
+
+      border: 0;
+      border-radius: 999px;
+
+      background: var(--muted);
+      cursor: pointer;
+
+      transition:
+        background-color 0.25s ease,
+        opacity 0.25s ease;
+    }
+
+    .toggle-switch[aria-checked="true"] {
+      background: var(--saturday);
+    }
+
+    .toggle-switch:disabled {
+      cursor: wait;
+      opacity: 0.55;
+    }
+
+    .toggle-switch:focus-visible {
+      outline: 3px solid
+        color-mix(in srgb, var(--saturday) 55%, transparent);
+
+      outline-offset: 3px;
+    }
+
+    .toggle-knob {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+
+      width: 30px;
+      height: 30px;
+
+      border-radius: 50%;
+      background: #ffffff;
+
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+
+      transition: transform 0.25s ease;
+    }
+
+    .toggle-switch[aria-checked="true"] .toggle-knob {
+      transform: translateX(30px);
+    }
+
+    .theme-option {
+      min-width: 112px;
+      height: 48px;
+      padding: 0 18px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+
+      font: inherit;
+      font-size: 20px;
+      font-weight: 600;
+      white-space: nowrap;
+
+      transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .theme-option:hover {
+      transform: translateY(-1px);
+    }
+
+    .theme-option:focus-visible {
+      outline: 3px solid color-mix(in srgb, var(--saturday) 55%, transparent);
+      outline-offset: 2px;
+    }
+
+    .theme-option[aria-checked="true"] {
+      background: var(--today-background);
+      color: var(--today-text);
+      box-shadow: 0 5px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    .fullscreen-button {
+      min-width: 132px;
+      height: 48px;
+      padding: 0 18px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      border: 0;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+
+      font: inherit;
+      font-size: 20px;
+      font-weight: 600;
+      white-space: nowrap;
+
+      transition:
+        background-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.2s ease,
+        box-shadow 0.25s ease,
+        opacity 0.2s ease;
+    }
+
+    .fullscreen-button:hover:not(:disabled) {
+      transform: translateY(-1px);
+    }
+
+    .fullscreen-button:focus-visible {
+      outline: 3px solid color-mix(in srgb, var(--saturday) 55%, transparent);
+      outline-offset: 2px;
+    }
+
+    .fullscreen-button[aria-pressed="true"] {
+      background: var(--today-background);
+      color: var(--today-text);
+      box-shadow: 0 5px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    .fullscreen-button:disabled {
+      cursor: not-allowed;
+      opacity: 0.45;
+    }
+
+    .theme-option-icon {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .tab-viewport,
+    .tab-viewport * {
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    .tab-viewport {
+      grid-column: 2;
+      grid-row: 2;
+
+      align-self: stretch;
+
+      position: relative;
+      width: 100%;
+      
+      max-width: 950px;
+
+      min-height: 0;
+
+      justify-self: center;
+      overflow: hidden;
+      touch-action: none;
+      cursor: grab;
+      border-radius: 28px;
+      background: var(--background);
+    }
+
+    .tab-viewport.is-dragging { cursor: grabbing; }
+
+    .tab-track {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      will-change: transform;
+      transform: translate3d(0, 0, 0);
+      transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .tab-track.is-dragging { transition: none; }
+
+    .tab-page {
+      position: relative;
+      flex: 0 0 100%;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .calendar-page {
+      display: flex;
+      align-items: stretch;
+      width: 100%;
+      height: 100%;
+      background: var(--background);
+    }
+
+    .calendar-page .calendar-panel {
+      width: 100%;
+      max-width: none;
+
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+
+      padding: 28px;
+    }
+
+    .color-page {
+      display: grid;
+      place-items: center;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: clamp(42px, 7vw, 92px);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      user-select: none;
+    }
+
+    .weather-page { background: transparent; }
+
+    .fuel-page {
+      display: grid;
+      grid-template-rows:
+        auto
+        auto
+        auto
+        minmax(0, 1fr)
+        auto;
+
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
+
+      padding: 28px;
+      color: var(--fuel-text);
+      background: var(--background);
+    }
+
+
+    .fuel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 14px;
+    }
+
+    .fuel-title {
+      margin: 0;
+      color: var(--fuel-text);
+      font-size: 52px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .fuel-refresh {
+      min-width: 140px;
+      height: 56px;
+      padding: 0 20px;
+      border: 1px solid var(--fuel-button-border);
+      border-radius: 999px;
+      background: var(--fuel-button-bg);
+      color: var(--fuel-button-text);
+      box-shadow: 0 5px 14px rgba(0, 0, 0, 0.06);
+      font: inherit;
+      font-size: 20px;
+      font-weight: 800;
+      cursor: pointer;
+      transition:
+        transform 0.18s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        opacity 0.2s ease;
+    }
+
+    .fuel-refresh:hover {
+      transform: translateY(-1px);
+    }
+
+    .fuel-refresh:focus-visible {
+      outline: 3px solid color-mix(in srgb, var(--fuel-accent) 36%, transparent);
+      outline-offset: 3px;
+    }
+
+    .fuel-refresh:disabled {
+      opacity: 0.52;
+      cursor: wait;
+      transform: none;
+    }
+
+    .fuel-category-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .fuel-category-tab {
+      height: 56px;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      background: var(--fuel-tab-bg);
+      color: var(--fuel-tab-text);
+      font: inherit;
+      font-size: 22px;
+      font-weight: 800;
+      cursor: pointer;
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.18s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .fuel-category-tab:hover {
+      transform: translateY(-1px);
+    }
+
+    .fuel-category-tab:focus-visible {
+      outline: 3px solid color-mix(in srgb, var(--fuel-accent) 36%, transparent);
+      outline-offset: 3px;
+    }
+
+    .fuel-category-tab[aria-selected="true"] {
+      background: var(--fuel-tab-selected-bg);
+      color: var(--fuel-tab-selected-text);
+      box-shadow: 0 6px 16px rgba(189, 32, 40, 0.18);
+    }
+
+    .fuel-status {
+      min-height: 24px;
+      margin: 0 2px 8px;
+      color: var(--fuel-muted);
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .fuel-list {
+      width: 100%;
+      height: 100%;
+      min-width: 0;
+      min-height: 0;
+
+      display: grid;
+      align-content: start;
+      gap: 7px;
+
+      overflow-x: hidden;
+      overflow-y: scroll;
+      overscroll-behavior: contain;
+      touch-action: none;
+
+      padding: 2px 8px 6px 2px;
+
+      scrollbar-color:
+        color-mix(in srgb, var(--fuel-text) 38%, transparent)
+        transparent;
+      scrollbar-width: auto;
+    }
+
+
+    .fuel-list::-webkit-scrollbar {
+      width: 40px;
+    }
+
+    .fuel-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .fuel-list::-webkit-scrollbar-thumb {
+      border: 5px solid transparent;
+      border-radius: 999px;
+      background:
+        color-mix(in srgb, var(--fuel-text) 42%, transparent);
+      background-clip: padding-box;
+    }
+
+    .fuel-card {
+      padding: 5px;
+      border: 1px solid var(--fuel-border);
+      border-radius: 16px;
+      background: var(--fuel-card-bg);
+      box-shadow: var(--fuel-card-shadow);
+    }
+
+    .fuel-station-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 5px;
+    }
+
+    .fuel-station-name {
+      overflow: hidden;
+      color: var(--fuel-text);
+      font-size: 24px;
+      font-weight: 800;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .fuel-station-id {
+      flex: 0 0 auto;
+      color: var(--fuel-muted);
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .fuel-prices {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .fuel-price {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 6px 7px;
+      border: 1px solid var(--fuel-border);
+      border-radius: 12px;
+      background: var(--fuel-price-bg);
+    }
+
+    .fuel-product {
+      color: var(--fuel-muted);
+      font-size: 26px;
+      font-weight: 700;
+    }
+
+    .fuel-value {
+      position: relative;
+      color: var(--fuel-text);
+      font-size: 32px;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    /* 각 그룹에서 유종별 최저가인 4개 결과 강조 */
+    .fuel-price.is-cheapest {
+      border-color: var(--fuel-cheapest-border);
+      background: var(--fuel-cheapest-bg);
+      box-shadow:
+        0 0 0 2px color-mix(
+          in srgb,
+          var(--fuel-cheapest-border) 22%,
+          transparent
+        ),
+        0 7px 18px var(--fuel-cheapest-glow);
+    }
+
+    .fuel-price.is-cheapest .fuel-value {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+
+      /* 세로 패딩을 추가하지 않으므로 기존 높이 유지 */
+      padding: 0;
+      border-radius: 999px;
+
+      color: var(--fuel-cheapest-text);
+
+      /* 크기 변화로 인한 시각적 넘침도 제거 */
+      transform: none;
+      background: transparent;  
+    }
+
+
+    .fuel-price.is-cheapest .fuel-value::before {
+      content: "최저";
+      margin-right: 8px;
+
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+
+      /* vertical-align 제거 */
+    }
+
+    .fuel-error,
+    .fuel-empty {
+      padding: 30px 18px;
+      color: var(--fuel-muted);
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .fuel-scroll-controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .fuel-scroll-button {
+      height: 58px;
+      border: 1px solid var(--fuel-button-border);
+      border-radius: 16px;
+
+      background: var(--fuel-button-bg);
+      color: var(--fuel-button-text);
+
+      font: inherit;
+      font-size: 20px;
+      font-weight: 800;
+
+      cursor: pointer;
+      touch-action: none;
+
+      transition:
+        transform 0.15s ease,
+        opacity 0.2s ease,
+        background-color 0.2s ease;
+    }
+
+    .fuel-scroll-button:active {
+      transform: scale(0.98);
+    }
+
+    .fuel-scroll-button:disabled {
+      cursor: default;
+      opacity: 0.35;
+    }
+
+
+
+
+    /* 유가 탭 폭·높이 안정화 */
+    .fuel-header,
+    .fuel-category-tabs,
+    .fuel-status,
+    .fuel-scroll-controls {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .fuel-title,
+    .fuel-refresh,
+    .fuel-category-tab,
+    .fuel-scroll-button {
+      white-space: nowrap;
+    }
+
+    .fuel-card,
+    .fuel-prices,
+    .fuel-price {
+      min-width: 0;
+    }
+
+    .fuel-station-name {
+      min-width: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tab-track {
+        transition-duration: 1ms;
+      }
+    }

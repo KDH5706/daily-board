@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>데일리 보드</title>
+  <link rel="stylesheet" href="./assets/css/styles.css" />
+</head>
+<body>
+<main class="daily-board" id="dailyBoard" aria-label="데일리 보드">
+    <div class="theme-switcher" role="radiogroup" aria-label="화면 테마 선택">
+      <button class="theme-option" type="button" role="radio" aria-checked="true" data-theme-mode="light" title="항상 라이트 모드">
+        <span class="theme-option-icon" aria-hidden="true">☀️</span><span>라이트</span>
+      </button>
+      <button class="theme-option" type="button" role="radio" aria-checked="false" data-theme-mode="dark" title="항상 다크 모드">
+        <span class="theme-option-icon" aria-hidden="true">🌙</span><span>다크</span>
+      </button>
+      <button class="theme-option" type="button" role="radio" aria-checked="false" data-theme-mode="auto" title="일출·일몰에 따라 자동 전환">
+        <span class="theme-option-icon" aria-hidden="true">🌅</span><span>자동</span>
+      </button>
+      <button class="fullscreen-button" id="fullscreenButton" type="button" aria-pressed="false" title="전체화면으로 전환">
+        <span class="theme-option-icon" aria-hidden="true">⛶</span><span id="fullscreenButtonText">전체화면</span>
+      </button>
+    </div>
+
+    <div class="top-left-controls" aria-label="실행 설정">
+      <div class="setting-control">
+        <span class="autostart-label">Windows 자동 실행</span>
+        <button class="toggle-switch" id="autostartToggle" type="button" role="switch" aria-checked="false" aria-label="Windows 시작 시 Daily Board 자동 실행">
+          <span class="toggle-knob"></span>
+        </button>
+      </div>
+
+      <div class="setting-control">
+        <span class="autostart-label">탭 자동 전환</span>
+        <button class="toggle-switch" id="autoTabToggle" type="button" role="switch" aria-checked="false" aria-label="일정시간 마다 다음 탭으로 자동 전환">
+          <span class="toggle-knob"></span>
+        </button>
+      </div>
+    </div>
+
+    <section class="left-panel">
+      <div class="date" aria-live="polite">
+        <span id="dateText"></span><span class="weekday" id="weekdayText"></span>
+      </div>
+      <div class="time" aria-live="polite" aria-label="현재 시간">
+        <span class="hour-minute" id="hourMinute"></span>
+        <span class="seconds" id="seconds" aria-label="초"></span>
+      </div>
+    </section>
+
+    <div class="tab-viewport" id="tabViewport" aria-label="달력 탭 전환 영역">
+      <div class="tab-track" id="tabTrack">
+        <!-- 0: 실제 Weahter과 동일한 왼쪽 Fake 탭 -->
+        <section class="tab-page color-page weather-page fake-page" aria-hidden="true">
+          <span>개발 중...</span>
+        </section>
+
+        <!-- 1: 실제 달력 탭 -->
+        <section class="tab-page calendar-page" aria-label="달력 탭">
+          <section class="calendar-panel" aria-label="월간 달력">
+            <div class="calendar-title" data-calendar-title> </div>
+            <div class="calendar" data-calendar></div>
+          </section>
+        </section>
+
+        <!-- 2: 유가 정보 탭 -->
+        <section class="tab-page fuel-page" id="fuelPage" aria-label="오피넷 주유소 가격 탭">
+          <div class="fuel-header">
+            <h2 class="fuel-title">주유소 가격</h2>
+            <button class="fuel-refresh" id="fuelRefreshButton" type="button">갱신하기</button>
+          </div>
+          <div class="fuel-category-tabs" role="tablist" aria-label="주유소 분류">
+            <button class="fuel-category-tab" type="button" role="tab" aria-selected="true" data-fuel-group="favorites">즐겨찾기</button>
+            <button class="fuel-category-tab" type="button" role="tab" aria-selected="false" data-fuel-group="highway">고속도로</button>
+          </div>
+          <div class="fuel-status" id="fuelStatus" aria-live="polite">갱신하기를 눌러 가격을 불러오세요.</div>
+          <div class="fuel-list" id="fuelList"></div>
+          <div class="fuel-scroll-controls" aria-label="유가 목록 스크롤 제어">
+            <button class="fuel-scroll-button" id="fuelScrollDownButton" type="button" aria-label="누르는 동안 목록 아래로 이동">
+              ▼ 아래로
+            </button>
+            <button class="fuel-scroll-button" id="fuelScrollTopButton" type="button" aria-label="목록 맨 위로 이동" >
+              ▲ 맨 위
+            </button>
+          </div>
+        </section>
+
+        <!-- 3: 실제 RED 탭 -->
+        <section class="tab-page color-page weather-page" aria-label="날씨 탭">
+          <span>개발 중...</span>
+        </section>
+
+        <!-- 4: 실제 달력과 동일한 오른쪽 Fake 탭 -->
+        <section class="tab-page calendar-page fake-page" aria-hidden="true">
+          <section class="calendar-panel" aria-hidden="true">
+            <div class="calendar-title" data-calendar-title></div>
+            <div class="calendar" data-calendar></div>
+          </section>
+        </section>
+      </div>
+    </div>
+  </main>
+  <script type="module" src="./assets/js/app.js"></script>
+</body>
+</html>
