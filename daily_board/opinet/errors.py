@@ -1,0 +1,2 @@
+class OpinetError(RuntimeError):
+    pass
