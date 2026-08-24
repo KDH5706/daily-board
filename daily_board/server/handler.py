@@ -57,10 +57,19 @@ class QuietRequestHandler(SimpleHTTPRequestHandler):
             self.app_state.heartbeat()
             self.send_empty_response(204)
             return
-        if path == "/__closed__":
-            self.app_state.request_close()
-            self.send_empty_response(204)
+        if path == "/__shutdown__":
+            self.app_state.requst_shutdown()
+
+            self.send_json({
+                "success": True,
+                "message": "Server shutdown requested"
+            })
+            
             return
+        # if path == "/__closed__":
+        #     self.app_state.request_close()
+        #     self.send_empty_response(204)
+        #     return
         if path == "/__autostart__":
             try:
                 content_length = int(self.headers.get("Content-Length", "0"))
