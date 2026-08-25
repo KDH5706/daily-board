@@ -15,7 +15,7 @@
 ## 주의
 브라우저의 탭 복원, 절전, 디버거 중단 등으로 JavaScript가 8초 이상 멈추면
 서버가 종료될 수 있습니다. 필요하면 `daily_board_launcher.pyw`의
-`HEARTBEAT_TIMEOUT_SECONDS` 값을 늘리세요.
+`WATCHDOG_TIMEOUT_SECONDS` 값을 늘리세요.
 
 이 방식에서는 `stop-daily-board.bat`이 실제로 실행되는 것이 아니라,
 동일한 결과로 EXE 프로세스와 HTTP 서버가 자체 종료됩니다.

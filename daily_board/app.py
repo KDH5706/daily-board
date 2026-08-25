@@ -13,7 +13,7 @@ from daily_board.windows.dialogs import show_error
 from daily_board.windows.single_instance import SingleInstance
 from daily_board.constants import (
     BROWSER_REOPEN_COOLDOWN_SECONDS,
-    HEARTBEAT_TIMEOUT_SECONDS,
+    WATCHDOG_TIMEOUT_SECONDS,
     HOST,
     HTML_FILE,
     MUTEX_NAME,
@@ -90,7 +90,7 @@ def run() -> None:
 
             if (
                 heartbeat_age
-                > HEARTBEAT_TIMEOUT_SECONDS
+                > WATCHDOG_TIMEOUT_SECONDS
             ):
                 now = time.monotonic()
 

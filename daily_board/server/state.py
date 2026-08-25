@@ -9,7 +9,7 @@ class ServerState:
         self.shutdown_requested = False
         self.lock = threading.Lock()
 
-    def heartbeat(self) -> None:
+    def watchdog(self) -> None:
         with self.lock:
             self.last_heartbeat = time.monotonic()
 

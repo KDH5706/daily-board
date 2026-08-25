@@ -54,7 +54,7 @@ class QuietRequestHandler(SimpleHTTPRequestHandler):
     def do_POST(self):
         path = unquote(urlparse(self.path).path)
         if path == "/__heartbeat__":
-            self.app_state.heartbeat()
+            self.app_state.watchdog()
             self.send_empty_response(204)
             return
         if path == "/__shutdown__":
@@ -86,7 +86,7 @@ class QuietRequestHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         path = unquote(urlparse(self.path).path)
         if path == "/__heartbeat__":
-            self.app_state.heartbeat()
+            self.app_state.watchdog()
             self.send_empty_response(204)
             return
         if path == "/__status__":

@@ -1,4 +1,4 @@
-export function sendHeartbeat() {
+export function sendWatchdog() {
   fetch("/__heartbeat__", {
     method: "POST",
     cache: "no-store",
@@ -6,14 +6,14 @@ export function sendHeartbeat() {
   }).catch(() => { });
 }
 
-export function initializeHeartbeat() {
-  window.addEventListener("pageshow", sendHeartbeat);
+export function initializeWatchdog() {
+  window.addEventListener("pageshow", sendWatchdog);
 
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) {
-      sendHeartbeat();
+      sendWatchdog();
     }
   });
 
-  window.addEventListener("focus", sendHeartbeat);
+  window.addEventListener("focus", sendWatchdog);
 }

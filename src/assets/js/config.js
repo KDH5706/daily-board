@@ -12,5 +12,5 @@ export const THEME_MODES = new Set(["light", "dark", "auto"]);
 export const AUTO_TAB_STORAGE_KEY = "dailyBoardAutoTabEnabled";
 
 export const AUTO_TAB_INTERVAL_MS = 10 * 1000;
-export const HEARTBEAT_INTERVAL_MS = 2000;
+export const WATCHDOG_INTERVAL_MS = 2000;
 export const FUEL_REFRESH_INTERVAL_MS = 60 * 60 * 1000;

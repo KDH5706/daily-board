@@ -11,7 +11,7 @@
 - `assets/js/features/clock-calendar.js`: 시계 및 월간 달력
 - `assets/js/features/tabs.js`: 세로 스와이프 및 자동 탭 전환
 - `assets/js/features/fuel.js`: 오피넷 유가 조회·표시
-- `assets/js/features/heartbeat.js`: 로컬 서버 heartbeat 및 종료 알림
+- `assets/js/features/watchdog.js`: 로컬 서버 watchdog 및 종료 알림
 
 ## 실행 주의사항
 

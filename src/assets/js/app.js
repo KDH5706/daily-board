@@ -1,9 +1,9 @@
-import { FUEL_REFRESH_INTERVAL_MS, HEARTBEAT_INTERVAL_MS } from "./config.js";
+import { FUEL_REFRESH_INTERVAL_MS, WATCHDOG_INTERVAL_MS } from "./config.js";
 import { initializeAutostart } from "./features/autostart.js";
 import { updateClock } from "./features/clock-calendar.js";
 import { initializeFuel, refreshFuelData } from "./features/fuel.js";
 import { initializeFullscreenButton } from "./features/fullscreen.js";
-import { initializeHeartbeat, sendHeartbeat } from "./features/heartbeat.js";
+import { initializeWatchdog, sendWatchdog } from "./features/watchdog.js";
 import { initializeTabs } from "./features/tabs.js";
 import { initializeThemeControls, loadSunTimes, updateSunTheme } from "./features/theme.js";
 import { initializeShutdownButton } from "./features/shutdown.js";
@@ -47,7 +47,7 @@ function initializeApp() {
   initializeFullscreenButton();
   initializeTabs();
   initializeFuel();
-  initializeHeartbeat();
+  initializeWatchdog();
   initializeShutdownButton();
 
   window.addEventListener("dailyboard:fuelmanualrefresh",  restartFuelRefreshTimer);
@@ -55,7 +55,7 @@ function initializeApp() {
   updateClock();
   loadSunTimes();
   refreshFuelData().finally(restartFuelRefreshTimer);
-  sendHeartbeat();
+  sendWatchdog();
 
   resizeBoard();
   window.addEventListener("resize", resizeBoard);
@@ -63,7 +63,7 @@ function initializeApp() {
   
   setInterval(updateClock, 1000);
   setInterval(updateSunTheme, 60 * 1000);
-  setInterval(sendHeartbeat, HEARTBEAT_INTERVAL_MS);
+  setInterval(sendWatchdog, WATCHDOG_INTERVAL_MS);
 }
 
 initializeApp();
