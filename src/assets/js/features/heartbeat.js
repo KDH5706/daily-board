@@ -6,14 +6,6 @@ export function sendHeartbeat() {
   }).catch(() => { });
 }
 
-// export function notifyPageClosed() {
-//   navigator.sendBeacon("/__closed__");
-// }
-
-// export function initializeHeartbeat() {
-//   window.addEventListener("pagehide", notifyPageClosed);
-// }
-
 export function initializeHeartbeat() {
   window.addEventListener("pageshow", sendHeartbeat);
 

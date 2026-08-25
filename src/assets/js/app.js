@@ -6,6 +6,7 @@ import { initializeFullscreenButton } from "./features/fullscreen.js";
 import { initializeHeartbeat, sendHeartbeat } from "./features/heartbeat.js";
 import { initializeTabs } from "./features/tabs.js";
 import { initializeThemeControls, loadSunTimes, updateSunTheme } from "./features/theme.js";
+import { initializeShutdownButton } from "./features/shutdown.js";
 
 const DESIGN_WIDTH = 1920;
 const DESIGN_HEIGHT = 1280;
@@ -47,6 +48,7 @@ function initializeApp() {
   initializeTabs();
   initializeFuel();
   initializeHeartbeat();
+  initializeShutdownButton();
 
   window.addEventListener("dailyboard:fuelmanualrefresh",  restartFuelRefreshTimer);
   

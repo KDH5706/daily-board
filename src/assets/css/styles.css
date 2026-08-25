@@ -328,6 +328,19 @@
     }
 
     .setting-control {
+      box-sizing: border-box;
+      height: 52px;
+
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      padding: 0 14px;
+
+      border: 1px solid var(--border);
+      border-radius: 999px;
+    }
+    /* .setting-control {
       display: flex;
       align-items: center;
       gap: 16px;
@@ -345,13 +358,76 @@
 
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
-    }
+    } */
 
-    .autostart-label {
+    .autostart-label,
+    .shutdown-button  {
       color: var(--text);
       font-size: 20px;
       font-weight: 600;
       white-space: nowrap;
+    }
+
+
+/* 서버 종료 버튼 */
+    .shutdown-button {
+      appearance: none;
+      -webkit-appearance: none;
+
+      box-sizing: border-box;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      margin: 0;
+      padding: 0 18px;
+
+      background: transparent;
+
+      font-family: inherit;
+      line-height: 1;
+
+      cursor: pointer;
+
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+    }
+    /* .shutdown-button {
+      appearance: none;
+      -webkit-appearance: none;
+
+      justify-content: center;
+      background: transparent;
+      font-family: inherit;
+      cursor: pointer;
+
+      transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+    } */
+
+    .shutdown-button:hover {
+      color: #e05252;
+      border-color: rgba(220, 70, 70, 0.6);
+      background: rgba(220, 70, 70, 0.08);
+    }
+
+    .shutdown-button:active {
+      background: rgba(220, 70, 70, 0.15);
+    }
+
+    .shutdown-button:focus-visible {
+      outline: 2px solid rgba(220, 70, 70, 0.6);
+      outline-offset: 2px;
+    }
+
+    .shutdown-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     .toggle-switch {
